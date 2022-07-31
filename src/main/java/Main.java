@@ -23,7 +23,7 @@ public class Main {
 
         carService.allCars().forEach(car -> System.out.println(car));
 
-        Model model1 = new Model("Model name1", 1995, List.of(carService.allCars().get(1),carService.allCars().get(2)));
+        Model model1 = new Model("Model name1", 1995, List.of(carService.allCars().get(0),carService.allCars().get(1)));
 
         carService.insertAModelIntoModelTable(model1);
 
