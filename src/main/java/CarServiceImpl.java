@@ -97,4 +97,44 @@ public class CarServiceImpl implements CarService{
 
         return output;
     }
+
+    @Override
+    public void insertAModelIntoModelTable(Model model) throws SQLException {
+        String sql = "INSERT INTO `cars`.`model`(`model_name`,`model_year`)VALUES(?,?);";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+        preparedStatement.setString(1, model.getName());
+        preparedStatement.setInt(2, model.getProductionStartYear());
+
+        preparedStatement.addBatch();
+        preparedStatement.execute();
+        preparedStatement.close();
+
+        String sql2 = "INSERT INTO `cars`.`model_car`(`car_id`,`model_id`)VALUES(?,?);";
+        PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
+
+        String SQLmAX = "select max(model_id) FROM cars.model;";
+        Statement statement = connection.createStatement();
+        ResultSet maxRs = statement.executeQuery(SQLmAX);
+
+        Integer max = null;
+        if (maxRs.next()) {
+            max = maxRs.getInt(1);
+        }
+
+
+        for(Car car: model.getCars()){
+            preparedStatement2.setInt(1, car.getCarId());
+            preparedStatement2.setInt(2,max);
+
+            preparedStatement2.addBatch();
+            preparedStatement2.execute();
+
+        }
+
+        preparedStatement2.close();
+
+    }
+
+
 }
