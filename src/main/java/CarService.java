@@ -21,5 +21,10 @@ public interface CarService {
 
     void insertAModelIntoModelTable(Model model) throws SQLException;
 
+    void insertAModelListIntoModeTable(List<Model> modelList) ;
+
+    List<Car> carListFromModel(Integer modelID) throws SQLException;
+    List<Model> allModels() throws SQLException;
+
 
 }

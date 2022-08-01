@@ -4,7 +4,7 @@ import java.util.List;
 
 public class CarServiceImpl implements CarService{
 
-    private final Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cars","root","toor");
+    private final Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cars","root","root");
 
     public CarServiceImpl() throws SQLException {
     }
@@ -134,6 +134,54 @@ public class CarServiceImpl implements CarService{
 
         preparedStatement2.close();
 
+    }
+
+    @Override
+    public void insertAModelListIntoModeTable(List<Model> modelList) {
+        modelList.forEach(model -> {
+            try {
+                insertAModelIntoModelTable(model);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    @Override
+    public List<Car> carListFromModel(Integer modelID) throws SQLException {
+        List<Car> output = new ArrayList<>();
+
+        String sql = "SELECT * FROM cars.car where car_id in (select car_id from cars.model_car where model_id = " + modelID + " );";
+
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()){
+            output.add(new Car(resultSet.getInt("car_id"), resultSet.getString("car_name"), resultSet.getString("car_description"), CarType.valueOf(resultSet.getString("car_type"))));
+        }
+
+        resultSet.close();
+        statement.close();
+
+        return output;
+    }
+
+    @Override
+    public List<Model> allModels() throws SQLException {
+        List<Model> output = new ArrayList<>();
+
+        String sql = "SELECT * FROM cars.model;";
+
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        while (resultSet.next()){
+            output.add(new Model(resultSet.getInt("model_id"), resultSet.getString("model_name"), resultSet.getInt("model_year"), carListFromModel(resultSet.getInt("model_id"))));
+        }
+
+        resultSet.close();
+        statement.close();
+        return output;
     }
 
 

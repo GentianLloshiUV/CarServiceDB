@@ -24,8 +24,16 @@ public class Main {
         carService.allCars().forEach(car -> System.out.println(car));
 
         Model model1 = new Model("Model name1", 1995, List.of(carService.allCars().get(0),carService.allCars().get(1)));
+        Model model2 = new Model("Model name1", 1985, List.of(carService.allCars().get(0),carService.allCars().get(1),carService.allCars().get(2)));
+        Model model3 = new Model("Model name1", 1975, List.of(carService.allCars().get(3),carService.allCars().get(5)));
+        Model model4 = new Model("Model name1", 2005, List.of(carService.allCars().get(5),carService.allCars().get(4)));
+        Model model5 = new Model("Model name1", 2015, List.of(carService.allCars().get(0),carService.allCars().get(4)));
 
-        carService.insertAModelIntoModelTable(model1);
+        //carService.insertAModelIntoModelTable(model1);
+
+        //carService.insertAModelListIntoModeTable(List.of(model2, model3, model4, model5));
+
+        carService.allModels().forEach(model -> System.out.println(model));
 
     }
 }
