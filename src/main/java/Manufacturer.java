@@ -10,5 +10,11 @@ public class Manufacturer {
     private String name;
     private Integer yearOfCreation;
     private List<Model> models;
+
+    public Manufacturer(String name, Integer yearOfCreation, List<Model> models) {
+        this.name = name;
+        this.yearOfCreation = yearOfCreation;
+        this.models = models;
+    }
 }
 
