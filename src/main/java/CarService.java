@@ -7,8 +7,8 @@ import java.util.Map;
 
 public interface CarService {
 
-    void createCarTable() throws SQLException;
-    void createModelTable() throws SQLException;
+    void createCarTable() throws  SQLException;
+    void createModelTable() throws  SQLException;
     void createManufacturerTable() throws SQLException;
     void createManufacturerModelTable() throws SQLException;
 
